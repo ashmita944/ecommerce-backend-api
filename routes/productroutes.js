@@ -1,5 +1,5 @@
 import express from 'express';
-import { addProduct, updateProduct, deleteProduct, getAllProducts } from '../controllers/productController.js';
+import { addProduct, updateProduct, deleteProduct, getAllProducts } from '../controllers/productcontroller.js';
 import { protect } from '../middleware/authMiddleware.js'; // Protect (Guard/Chowkidar) middleware import kiya
 
 const router = express.Router();
