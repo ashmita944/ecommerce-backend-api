@@ -11,7 +11,7 @@ export const placeOrder = async (req, res) => {
             return res.status(400).json({ message: "Aapka cart khaali hai!" });
         }
 
-        // Naya order create karo
+       
         const newOrder = new Order({
             userId,
             items: cart.items,
@@ -20,7 +20,7 @@ export const placeOrder = async (req, res) => {
 
         await newOrder.save();
 
-        // Order place hone ke baad Cart khali kar do
+        
         cart.items = [];
         await cart.save();
 
