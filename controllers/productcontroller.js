@@ -1,6 +1,6 @@
 import Product from '../models/product.js';
 
-// 1. Product Add Karne Ka Logic
+
 export const addProduct = async (req, res) => {
     try {
         const { name, price } = req.body;
@@ -12,7 +12,7 @@ export const addProduct = async (req, res) => {
     }
 };
 
-// 2. Database se saare Products fetch karne ka logic
+
 export const getProducts = async (req, res) => {
     try {
         const products = await Product.find({});
@@ -22,7 +22,7 @@ export const getProducts = async (req, res) => {
     }
 };
 
-// 3. Product Delete karne ka logic
+
 export const deleteProduct = async (req, res) => {
     try {
         const productId = req.params.id;
@@ -36,7 +36,7 @@ export const deleteProduct = async (req, res) => {
     }
 };
 
-// 4. Product Update karne ka logic (Jo server.js se shift hua hai!)
+
 export const updateProduct = async (req, res) => {
     try {
         const productId = req.params.id;
@@ -51,7 +51,7 @@ export const updateProduct = async (req, res) => {
     }
 };
 
-// Saare Products fetch karne ka logic
+
 export const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find({});
