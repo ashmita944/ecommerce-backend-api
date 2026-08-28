@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true // Ek email se ek hi account banega
+    unique: true 
   },
   password: {
     type: String,
@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    default: 'user' // Default 'user' rahega, 'admin' role hum manual/special route se denge
+    default: 'user' 
   }
 }, { timestamps: true });
 
