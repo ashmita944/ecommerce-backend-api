@@ -1,4 +1,4 @@
-import Product from '../models/Product.js';
+import Product from '../models/product.js';
 
 // 1. Product Add Karne Ka Logic
 export const addProduct = async (req, res) => {
