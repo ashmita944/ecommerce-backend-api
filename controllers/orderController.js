@@ -8,7 +8,7 @@ export const placeOrder = async (req, res) => {
 
         const cart = await Cart.findOne({ userId });
         if (!cart || cart.items.length === 0) {
-            return res.status(400).json({ message: "Aapka cart khaali hai!" });
+            return res.status(400).json({ message: "Your cart is empty!" });
         }
 
        
@@ -24,7 +24,7 @@ export const placeOrder = async (req, res) => {
         cart.items = [];
         await cart.save();
 
-        res.status(201).json({ message: "Order successfully place ho gaya! 🎉", order: newOrder });
+        res.status(201).json({ message: "Order placed successfully!", order: newOrder });
     } catch (error) {
         res.status(500).json({ message: "Server error", error: error.message });
     }
