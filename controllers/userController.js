@@ -14,13 +14,13 @@ export const registerUser = async (req, res) => {
 
    
     if (!name || !email || !password) {
-      return res.status(400).json({ message: "Saari fields bharna zaroori hai!" });
+      return res.status(400).json({ message: "All fields are required!" });
     }
 
     
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "Is email se account pehle se bana hua hai!" });
+      return res.status(400).json({ message: "An account with this email already exists!" });
     }
 
     
@@ -31,20 +31,20 @@ export const registerUser = async (req, res) => {
     const newUser = new User({
       name,
       email,
-      password: hashedPassword, // Encrypted password save ho raha hai
-      role: role || 'user' // Agar role nahi diya toh default 'user' hoga
-    });
+      password: hashedPassword, // Storing encrypted password
+      role: role || 'user' // Default to 'user' if role is not provided
+       });
 
     await newUser.save();
 
     res.status(201).json({ 
-      message: "User successfully register ho gaya! 🎉",
+      message: "User registered successfully!",
       user: { id: newUser._id, name: newUser.name, email: newUser.email, role: newUser.role }
     });
 
   } catch (error) {
     console.error("Signup me error:", error);
-    res.status(500).json({ message: "Signup karne me dikkat aayi", error: error.message });
+    res.status(500).json({ message: "Failed to register user", error: error.message });
   }
 };
 
@@ -57,30 +57,30 @@ export const loginUser = async (req, res) => {
 
     
     if (!email || !password) {
-      return res.status(400).json({ message: "Email aur Password dono likho!" });
+      return res.status(400).json({ message: "Both email and password are required!" });
     }
 
     
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "User nahi mila! Pehle Signup karo." });
+      return res.status(404).json({ message: "User not found. Please sign up first." });
     }
 
    
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
-      return res.status(400).json({ message: "Galat Password! Dubara try karo." });
+      return res.status(400).json({ message: "Invalid credentials. Please try again." });
     }
 
     
     const token = jwt.sign(
       { userId: user._id, role: user.role },
       JWT_SECRET,
-      { expiresIn: '7d' } // Token 7 din tak valid rahega
+      { expiresIn: '7d' } // Token valid for 7 days
     );
 
     res.status(200).json({
-      message: "Login Successful! 🔓",
+      message: "Login Successful!",
       token: token,
       user: {
         id: user._id,
@@ -92,6 +92,6 @@ export const loginUser = async (req, res) => {
 
   } catch (error) {
     console.error("Login me error:", error);
-    res.status(500).json({ message: "Login karne me dikkat aayi", error: error.message });
+    res.status(500).json({ message: "Failed to log in", error: error.message });
   }
 };
