@@ -28,7 +28,7 @@ export const deleteProduct = async (req, res) => {
         const productId = req.params.id;
         const deletedProduct = await Product.findByIdAndDelete(productId);
         if (!deletedProduct) {
-            return res.status(404).json({ message: "Product nahi mila!" });
+            return res.status(404).json({ message: "Product not found!" });
         }
         res.status(200).json({ message: "Product deleted successfully!" });
     } catch (error) {
@@ -43,11 +43,11 @@ export const updateProduct = async (req, res) => {
         const newData = req.body;
         const updatedProduct = await Product.findByIdAndUpdate(productId, newData, { new: true });
         if (!updatedProduct) {
-            return res.status(404).json({ message: "Product nahi mila!" });
+            return res.status(404).json({ message: "Product not found!" });
         }
-        res.status(200).json({ message: "Product makhhan jaisa update ho gaya! 🔄", updatedProduct });
+        res.status(200).json({ message: "Product updated successfully! 🔄", updatedProduct });
     } catch (err) {
-        res.status(500).json({ message: "Update karne me dikkat aayi", error: err.message });
+        res.status(500).json({ message: "Failed to update product", error: err.message });
     }
 };
 
@@ -57,6 +57,6 @@ export const getAllProducts = async (req, res) => {
     const products = await Product.find({});
     res.status(200).json(products);
   } catch (err) {
-    res.status(500).json({ message: "Products lane me dikkat aayi", error: err.message });
+    res.status(500).json({ message: "Failed to fetch products", error: err.message });
   }
 }; 
