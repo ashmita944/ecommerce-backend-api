@@ -22,11 +22,11 @@ export const protect = async (req, res, next) => {
       
       next();
     } catch (error) {
-      res.status(401).json({ message: 'Token sahi nahi hai, authorization denied!' });
+      res.status(401).json({ message: 'Invalid token, authorization denied!' });
     }
   }
 
   if (!token) {
-    res.status(401).json({ message: 'Koi token nahi mila, access denied!' });
+    res.status(401).json({ message: 'No token provided, access denied!' });
   }
 };
