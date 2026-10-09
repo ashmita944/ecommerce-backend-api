@@ -8,19 +8,19 @@ function App() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Form States (Admin ke input ke liye)
+  // Form States (Admin Input)
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState("");
 
-  // 1. GET: Products Fetch Karne Ka Function
+  // 1. GET: Fetch Products
   const fetchProducts = async () => {
     try {
       const response = await axios.get(`${API_URL}/all`);
       setProducts(response.data);
       setLoading(false);
     } catch (error) {
-      console.error("Data fetch karne me dikkat aayi:", error);
+      console.error("Failed to fetch products:", error);
       setLoading(false);
     }
   };
@@ -29,44 +29,44 @@ function App() {
     fetchProducts();
   }, []);
 
-  // 2. POST: Naya Product Add Karne Ka Function (Admin Form ke liye)
+  // 2. POST: Add New Product (Admin Form)
   const handleAddProduct = async (e) => {
-    e.preventDefault(); // Page refresh hone se rokne ke liye
-    if (!name || !price) return alert("Naam aur Price likhna zaroori hai!");
+    e.preventDefault(); //Prevent page refresh
+    if (!name || !price) return alert("Name and price are required!");
 
     try {
       const newProduct = { name, price: Number(price), image };
       await axios.post(`${API_URL}/add`, newProduct);
       
-      alert("Product makkhan ki tarah save ho gaya! 🎉");
-      // Form fields ko wapas khali kar do
+      alert("Product saved successfully!");
+      // Reset form fields
       setName("");
       setPrice("");
       setImage("");
       
-      // List ko refresh karo takki naya product turant dikhe
+      // Refresh product list
       fetchProducts();
     } catch (error) {
-      console.error("Save karne me dikkat aayi:", error);
+      console.error("Failed to save product:", error);
     }
   };
 
-  // 3. DELETE: Product Delete Karne Ka Function
+  // 3. DELETE: Delete Product
   const handleDeleteProduct = async (id) => {
-    const confirmDelete = window.confirm("Kya aap sach me is product ko delete karna chahte hain?");
+    const confirmDelete = window.confirm("Are you sure you want to delete this product?");
     if (!confirmDelete) return;
 
     try {
       await axios.delete(`${API_URL}/delete/${id}`);
-      alert("Product delete ho gaya! 🗑️");
-      fetchProducts(); // List refresh karo
+      alert("Product deleted successfully");
+      fetchProducts(); // Refresh product list
     } catch (error) {
-      console.error("Delete karne me dikkat aayi:", error);
+      console.error("Failed to delete product:", error);
     }
   };
 
   if (loading) {
-    return <h2 style={{ textAlign: "center", marginTop: "50px" }}>Tijori se products nikal rahe hain... 📦</h2>;
+    return <h2 style={{ textAlign: "center", marginTop: "50px" }}>Loading products...</h2>;
   }
 
   return (
@@ -74,11 +74,11 @@ function App() {
       
       {/* 🛠️ ADMIN PANEL FORM SECTION */}
       <div style={{ background: "#f9f9f9", padding: "20px", borderRadius: "10px", marginBottom: "40px", border: "1px dashed #ccc" }}>
-        <h2 style={{ marginTop: 0 }}>🛡️ Admin Panel: Naya Product Jodein</h2>
+        <h2 style={{ marginTop: 0 }}>🛡️ Admin Panel: Add New Product</h2>
         <form onSubmit={handleAddProduct} style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
           <input 
             type="text" 
-            placeholder="Product Ka Naam" 
+            placeholder="Product Name" 
             value={name} 
             onChange={(e) => setName(e.target.value)}
             style={{ padding: "10px", flex: 1, borderRadius: "5px", border: "1px solid #ccc" }}
