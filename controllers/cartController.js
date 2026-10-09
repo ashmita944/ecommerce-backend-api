@@ -19,7 +19,7 @@ export const addToCart = async (req, res) => {
         }
 
         await cart.save();
-        res.status(200).json({ message: "Product cart mein add ho gaya!", cart });
+        res.status(200).json({ message: "Product added to cart successfully!", cart });
     } catch (error) {
         res.status(500).json({ message: "Server error", error: error.message });
     }
